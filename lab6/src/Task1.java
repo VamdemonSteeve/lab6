@@ -28,10 +28,10 @@ public class Task1 {
         ChromeOptions option=new ChromeOptions();
         option.addArguments("--start-maximized","--start-fullscreen");
     }
-    public static class Test1 implements Runnable{
+    public static class TestRozetka implements Runnable{
         @Override public void run()
         {
-
+            Task2 test = new Task2();
         }
     }
     public static void ChangeTimeLimit(long  duration)
@@ -81,7 +81,6 @@ public class Task1 {
                             System.out.println("page's number: " + PageNumber);
                             File scrFile = ((TakesScreenshot) phantom).getScreenshotAs(OutputType.FILE);
                             try {
-                                if (!ScreenEverything)
                                     FileUtils.copyFile(scrFile, new File("Screens/screen" + "PageNumber"));
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -98,24 +97,36 @@ public class Task1 {
     }
     public static void main(String[] arg) throws Throwable
     {
+
         try {
             ChangeTimeLimit(25000);
             InitBrowser();
-            DesiredCapabilities capabilities=new DesiredCapabilities();
+            DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setJavascriptEnabled(true);
-            capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,"/usr/local/bin/phantomjs");
-            phantom=new PhantomJSDriver(capabilities);
+            capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/usr/local/bin/phantomjs");
+
+            phantom = new PhantomJSDriver(capabilities);
             driver.manage().window().maximize();
-            InputGoogle("dojo");;
-            wait.until(o->{return SearchGoogle("https://wynncraft.gamepedia.com/Enter_the_Dojo",false);});
+
+            //Thread test=new Thread(new TestRozetka());
+            //test.start();
+            Task2 task2 = new Task2();
+            InputGoogle("dojo");
+
+            wait.until(o -> {
+                return SearchGoogle("https://wynncraft.gamepedia.com/Enter_the_Dojo", false);
+            });
             System.out.println("--------------");
             Back_up();
             InputGoogle("dojo");
-            wait.until(o->{return SearchGoogle("https://dojotoolkit.org/",false);});
+            wait.until(o -> {
+                return SearchGoogle("https://dojotoolkit.org/", false);
+            });
             System.out.println("--------------");
             Back_up();
             InputGoogle("dojo");
-            SearchGoogle("cat.dog.com",true);
+            SearchGoogle("cat.dog.com", true);
+
         }
         finally{
             driver.quit();
